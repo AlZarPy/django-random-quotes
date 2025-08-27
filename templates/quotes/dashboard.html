@@ -1,0 +1,50 @@
+{% extends 'quotes/base.html' %}
+{% block content %}
+  <h3>Дашборд</h3>
+  <form class="row g-2 mt-1" method="get">
+    <div class="col-auto">
+      <select name="kind" class="form-select">
+        <option value="">Все типы</option>
+        {% for val,label in kinds %}
+          <option value="{{ val }}" {% if kind == val %}selected{% endif %}>{{ label }}</option>
+        {% endfor %}
+      </select>
+    </div>
+    <div class="col-auto">
+      <button class="btn btn-outline-primary">Фильтровать</button>
+    </div>
+  </form>
+
+  <div class="row mt-4">
+    <div class="col-md-4">
+      <h5>Самые просматриваемые</h5>
+      <ol>
+        {% for q in most_viewed %}
+          <li>“{{ q.text|truncatechars:60 }}” <span class="text-muted">({{ q.views }} просмотров)</span></li>
+        {% empty %}
+          <li>Нет данных</li>
+        {% endfor %}
+      </ol>
+    </div>
+    <div class="col-md-4">
+      <h5>Самые залайканные</h5>
+      <ol>
+        {% for q in most_liked %}
+          <li>“{{ q.text|truncatechars:60 }}”</li>
+        {% empty %}
+          <li>Нет данных</li>
+        {% endfor %}
+      </ol>
+    </div>
+    <div class="col-md-4">
+      <h5>Самые задизлайканные</h5>
+      <ol>
+        {% for q in most_disliked %}
+          <li>“{{ q.text|truncatechars:60 }}”</li>
+        {% empty %}
+          <li>Нет данных</li>
+        {% endfor %}
+      </ol>
+    </div>
+  </div>
+{% endblock %}

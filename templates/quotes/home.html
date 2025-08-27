@@ -1,0 +1,20 @@
+{% extends 'quotes/base.html' %}
+{% block content %}
+  <div id="quote-block">
+    {% include 'quotes/quote_partial.html' %}
+  </div>
+  <div class="mt-3 d-flex gap-2">
+  <a class="btn btn-secondary"
+     hx-get="{% url 'quotes:random_partial' %}?exclude={% if quote %}{{ quote.id }}{% endif %}"
+     hx-target="#quote-block" hx-swap="innerHTML">
+    Другая цитата
+  </a>
+
+  {% if can_add_quotes %}
+    <a class="btn btn-outline-primary" href="{% url 'quotes:add' %}">Добавить цитату</a>
+  {% endif %}
+
+
+  <a class="btn btn-outline-success" href="{% url 'quotes:top' %}">Топ-10</a>
+</div>
+{% endblock %}

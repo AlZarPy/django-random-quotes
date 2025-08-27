@@ -1,0 +1,30 @@
+{% if quote %}
+  <div class="card">
+    <div class="card-body">
+      <blockquote class="blockquote mb-0">
+        <p class="fs-4">“{{ quote.text }}”</p>
+        <footer class="blockquote-footer">
+          {{ quote.source.title }} — <span class="text-muted">{{ quote.source.get_kind_display }}</span>
+        </footer>
+      </blockquote>
+      <div class="mt-3 d-flex align-items-center gap-3 flex-wrap">
+        <form method="post" action="{% url 'quotes:vote' %}">
+          {% csrf_token %}
+          <input type="hidden" name="quote_id" value="{{ quote.id }}">
+          <button class="btn btn-outline-success" name="action" value="like">👍 {{ likes }}</button>
+          <button class="btn btn-outline-danger" name="action" value="dislike">👎 {{ dislikes }}</button>
+        </form>
+        <span class="text-muted">Просмотров: {{ quote.views }}</span>
+
+        {% if share_url %}
+          <button type="button" class="btn btn-outline-secondary" onclick="copyToClipboard('{{ share_url }}')">
+            🔗 Поделиться
+          </button>
+          <a class="btn btn-outline-primary" href="{{ share_url }}">Открыть по ссылке</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% else %}
+  <div class="alert alert-info">Пока нет цитат. Добавьте первую.</div>
+{% endif %}

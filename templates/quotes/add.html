@@ -1,0 +1,32 @@
+{% extends 'quotes/base.html' %}
+{% block content %}
+  <h3>Добавить цитату</h3>
+  <form method="post" class="mt-3">
+    {% csrf_token %}
+    <div class="mb-3">
+      {{ form.text.label_tag }} 
+      {{ form.text }}
+      {% for e in form.text.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+    </div>
+    <div class="mb-3">
+      {{ form.weight.label_tag }} 
+      {{ form.weight }}
+      {% for e in form.weight.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+    </div>
+    <div class="mb-3">
+      {{ form.source.label_tag }}
+      {{ form.source }}
+      {% for e in form.source.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+    </div>
+    <div class="mb-3">
+      {{ form.new_source_title.label_tag }}
+      {{ form.new_source_title }}
+      {% for e in form.new_source_title.errors %}<div class="text-danger small">{{ e }}</div>{% endfor %}
+    </div>
+    <div class="mb-3">
+      {{ form.new_source_kind.label_tag }}
+      {{ form.new_source_kind }}
+    </div>
+    <button class="btn btn-primary">Сохранить</button>
+  </form>
+{% endblock %}
