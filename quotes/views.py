@@ -143,7 +143,8 @@ def api_random(request: HttpRequest) -> JsonResponse:
         'dislikes': dislikes,
         'permalink': request.build_absolute_uri(reverse('quotes:detail', args=[quote.id])),
     }
-    return JsonResponse({'ok': True, 'data': data})
+    return JsonResponse({'ok': True, 'data': data},
+                        json_dumps_params={'ensure_ascii': False})
 
 def api_top(request: HttpRequest) -> JsonResponse:
     try:
@@ -164,5 +165,6 @@ def api_top(request: HttpRequest) -> JsonResponse:
         'likes': getattr(q, 'likes', 0) or 0,
         'permalink': request.build_absolute_uri(reverse('quotes:detail', args=[q.id])),
     } for q in qs]
-    return JsonResponse({'ok': True, 'count': len(data), 'data': data})
+    return JsonResponse({'ok': True, 'count': len(data), 'data': data},
+                        json_dumps_params={'ensure_ascii': False})
 
