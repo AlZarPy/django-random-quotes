@@ -58,12 +58,20 @@ def random_partial(request: HttpRequest) -> HttpResponse:
 
 def add_quote(request: HttpRequest) -> HttpResponse:
     cfg = AppSettings.get_solo()
+    # если включено "добавлять могут только админы" — отправляем на логин админки
     if cfg.require_login_to_add and not (request.user.is_authenticated and request.user.is_staff):
         return redirect(f"/admin/login/?next={request.get_full_path()}")
 
+    if request.method == 'POST':
+        form = QuoteForm(request.POST)
+        if form.is_valid():
+            quote = form.save()
+            return redirect('quotes:detail', pk=quote.pk)
     else:
         form = QuoteForm()
+
     return render(request, 'quotes/add.html', {'form': form})
+
 
 def vote(request: HttpRequest) -> HttpResponse:
     if request.method != 'POST':
